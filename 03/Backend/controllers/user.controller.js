@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js"
 const registerUser = async(req, res) => {
 
     const {fullName, email, phoneNumber, work, password, confirmPassword} = req.body
+    // console.log(req.body);
 
     if(!fullName || !email || !phoneNumber || !password || !confirmPassword){
         return res.status(400).json({msg: 'Please fill all fields'})
@@ -30,8 +31,19 @@ const registerUser = async(req, res) => {
         confirmPassword,
     })
     // console.log(user);
-
     const createdUser = await User.findById(user._id).select("-password -confirmPassword")
+
+    // or
+
+    // const user = new User({
+    //     fullName,
+    //     email:email.toLowerCase(),
+    //     phoneNumber,
+    //     work,
+    //     password,
+    //     confirmPassword,
+    // })
+    // const createdUser = await user.save() 
 
     if(!createdUser){
         return res.status(500).json({msg:'Something went wrong while registering new user'})
@@ -71,4 +83,22 @@ const registerUser = async(req, res) => {
 //     }).catch((err) => {console.log(err)});
 // }
 
-export { registerUser } 
+const loginUser = async(req, res) => {
+    // console.log(req.body);
+    // return res.status(201).json({msg:'successfull'})
+
+    const {email, password } = req.body
+
+    if(!email || !password){
+        return res.status(400).json({msg: 'Please fill all fields'})
+    }
+    const userLogin = await User.findOne({email: email}).select("email password")
+    console.log(userLogin);
+
+    const realpassword = userSchema.methods.isValidPassword(userLogin.password)
+    console.log(realpassword);
+
+
+}
+
+export { registerUser, loginUser } 
