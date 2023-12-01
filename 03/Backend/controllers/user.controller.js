@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js"
+import bcrypt from "bcrypt";
 
 // async await
 const registerUser = async(req, res) => {
@@ -73,7 +74,7 @@ const registerUser = async(req, res) => {
 //             return res.status(400).json({msg:'User already exists'});
 //         }
 //         const user = new User({fullName, email, phoneNumber, password, confirmPassword});
-
+//         
 //         user.save().then(() => {
 //             res.status(201).json({msg:'User registered successfully'})
 //         }).catch((err) => {
@@ -83,21 +84,30 @@ const registerUser = async(req, res) => {
 //     }).catch((err) => {console.log(err)});
 // }
 
-const loginUser = async(req, res) => {
-    // console.log(req.body);
-    // return res.status(201).json({msg:'successfull'})
 
-    const {email, password } = req.body
+// *********************** User Login *********************
+const loginUser = async(req, res) => {
+ 
+    const { email, password } = req.body
 
     if(!email || !password){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
+
     const userLogin = await User.findOne({email: email}).select("email password")
-    console.log(userLogin);
-
-    const realpassword = userSchema.methods.isValidPassword(userLogin.password)
-    console.log(realpassword);
-
+    if (!userLogin) {
+        return res.status(400).json({ msg: "Invalid Email and Password" });
+    }
+    // console.log(userLogin);
+    const hashPassword = userLogin.password;
+    // compare password
+    const comparePassword = await bcrypt.compare(password, hashPassword)
+    
+    if(!comparePassword){
+        return res.status(400).json({msg:'Incorrect Password'})
+    }
+    console.log("User LogedIn Successfully");
+    return res.status(201).json({msg:'User LoggedIn Successfully'})
 
 }
 
