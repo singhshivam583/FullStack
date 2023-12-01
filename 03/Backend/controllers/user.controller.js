@@ -94,18 +94,25 @@ const loginUser = async(req, res) => {
         return res.status(400).json({msg: 'Please fill all fields'})
     }
 
-    const userLogin = await User.findOne({email: email}).select("email password")
+    const userLogin = await User.findOne({email: email})
     if (!userLogin) {
         return res.status(400).json({ msg: "Invalid Email and Password" });
     }
     // console.log(userLogin);
-    const hashPassword = userLogin.password;
-    // compare password
-    const comparePassword = await bcrypt.compare(password, hashPassword)
-    
-    if(!comparePassword){
+
+    //******************** compare password *****************
+    // const hashPassword = userLogin.password;
+    // const comparePassword = await bcrypt.compare(password, hashPassword)
+    const isValidPassword = await userLogin.isValidPassword(password)
+    // console.log(isValidPassword);
+    if(!isValidPassword){
         return res.status(400).json({msg:'Incorrect Password'})
     }
+
+    //**************************** jwt ******************
+    const token = await userLogin.generateRefreshToken()
+    console.log(token);
+    
     console.log("User LogedIn Successfully");
     return res.status(201).json({msg:'User LoggedIn Successfully'})
 
