@@ -12,4 +12,9 @@ const userRouter = Router()
 
     userRouter.route("/login").post(loginUser)
 
+    userRouter.route('/contact').get((req, res) => {
+        res.cookie("test","Shivam");
+        res.send('Hello from contact')
+    })
+
 export default userRouter

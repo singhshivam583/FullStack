@@ -112,7 +112,18 @@ const loginUser = async(req, res) => {
     //**************************** jwt ******************
     const token = await userLogin.generateRefreshToken()
     console.log(token);
-    
+    if (!token){
+        return res.status(400).json({msg:'Token not found'})
+    }
+
+    res.cookie(
+        'jwtToken',
+        token,
+        {
+            httpOnly: true,
+        }
+    )
+
     console.log("User LogedIn Successfully");
     return res.status(201).json({msg:'User LoggedIn Successfully'})
 
