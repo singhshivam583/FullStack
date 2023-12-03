@@ -8,36 +8,6 @@ function Header() {
     setMenuOpen(!isMenuOpen);
   };
 
-  // const navigate = useNavigate()
-
-  // const navItems = [
-  //   {
-  //     name: 'Home',
-  //     slug: "/",
-  //     active: true
-  //   },
-  //   {
-  //       name: "AboutMe",
-  //       slug: "/about",
-  //       active: true,
-  //   }, 
-  //   {
-  //     name: "Contact",
-  //     slug: "/contact",
-  //     active: true,
-  //   },
-  //   {
-  //     name: "Login",
-  //     slug: "/login",
-  //     active: true,
-  //   },
-  //   {
-  //       name: "Register",
-  //       slug: "/signup",
-  //       active: true,
-  //   },
-  // ]
-
   return (
     <header className="bg-white w-full shadow-md">
       <nav className="mx-auto flex w-full items-center justify-between p-4 lg:px-8" aria-label="Global">
@@ -95,7 +65,7 @@ function Header() {
                   </li>
                   <li>
                       <NavLink
-                      to="/login"
+                      to="/Login"
                           className={({isActive}) =>
                               `block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0 
                               ${isActive ? "text-orange-700" : "text-gray-700"}`
