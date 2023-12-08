@@ -21,17 +21,17 @@ function Footer() {
                 <p className="flex justify-start mb-4 text-sm font-bold text-gray-900 uppercase">Resources</p>
                 <ul className="flex flex-col items-start text-gray-500 font-medium">
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline">
-                      Home
+                    <NavLink to="/" className="decoration-orange-700 hover:underline">
+                       Home
                     </NavLink>
                    </li>
                     <li className="mb-4">
-                    <NavLink to="/About" className="hover:underline">
+                    <NavLink to="/About" className="decoration-orange-700 hover:underline">
                       AboutMe
                     </NavLink>
                    </li>
                     <li className="mb-4">
-                    <NavLink to="/Contact" className={"hover:underline"}>
+                    <NavLink to="/Contact" className="decoration-orange-700 hover:underline">
                       Contact
                     </NavLink>
                    </li>
@@ -41,17 +41,17 @@ function Footer() {
                 <p className="flex justify-start mb-4 text-sm font-bold text-gray-900 uppercase">Follow Us</p>
                 <ul className="flex flex-col items-start text-gray-500 font-medium">
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline">
+                    <NavLink to="/" className="decoration-orange-700 hover:underline">
                       facebook
                     </NavLink>
                    </li>
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline">
+                    <NavLink to="/" className="decoration-orange-700 hover:underline">
                       gitHub
                     </NavLink>
                    </li>
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline">
+                    <NavLink to="/" className="decoration-orange-700 hover:underline">
                       Discord
                     </NavLink>
                    </li>
@@ -61,12 +61,12 @@ function Footer() {
                 <p className="flex justify-start mb-4 text-sm font-bold text-gray-900 uppercase">Legal</p>
                 <ul className="flex flex-col items-start text-gray-500 font-medium">
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline" >
+                    <NavLink to="/" className="decoration-orange-700 hover:underline" >
                       Privacy Policy
                     </NavLink>
                    </li>
                     <li className="mb-4">
-                    <NavLink to="/" className="hover:underline">
+                    <NavLink to="/" className="decoration-orange-700 hover:underline">
                       Terms & Conditions
                     </NavLink>
                    </li>

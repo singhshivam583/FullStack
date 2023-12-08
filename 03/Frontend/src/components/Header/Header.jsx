@@ -9,7 +9,7 @@ function Header() {
   };
 
   return (
-    <header className="bg-white w-full shadow-md">
+    <header className="sticky z-50 top-0 bg-white w-full shadow-md">
       <nav className="mx-auto flex w-full items-center justify-between p-4 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
             <Link to="/" className="flex items-center">
