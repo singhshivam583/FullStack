@@ -10,7 +10,7 @@ function Register() {
                     <div className=' ml-6 pb-4 font-extrabold text-2xl flex items-start'>
                       <h1>Sign up</h1>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 gap">
                         <div className='flex justify-center items-center w-4 text-2xl'>
                             <i class="zmdi zmdi-account zmdi-hc-1x"></i>
                         </div>
@@ -54,9 +54,9 @@ function Register() {
                         </label>
                         <input
                             type="number"
-                            name="phone"
+                            name="phone" 
                             id="phone"
-                            placeholder="Phone Number"
+                            placeholder="Mobile Number"
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
                       </div>
@@ -124,16 +124,16 @@ function Register() {
                         Submit
                     </button>
                 </form>
-                <div className="p-6 bg-gray-100 sm:rounded-lg h-auto ">
+                <div className="p-6 bg-gray-100 rounded-lg h-auto ">
                     <div className= "w-full h-full flex flex-col justify-center items-center gap-6">
                         <img className="w-96" src="https://i.ibb.co/5BCcDYB/Remote2.png" alt="image1" />
                         <div className='flex p-6 text-[1rem]'>
-                            <p>already registered?&nbsp;</p>
+                            <p>Already registered?&nbsp;</p>
                             <Link
                             to={'/login'}
                             className='hover:text-black hover:underline font-semibold'
                             >
-                              login here
+                              Login here
                             </Link>
                         </div>
                     </div>
