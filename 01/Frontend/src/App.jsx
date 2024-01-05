@@ -9,8 +9,7 @@ function App() {
     axios.get('/api/jokes')
     .then((response) => {
       setJokes(response.data)
-    }
-    )
+    })
     .catch((error) => {
       console.log(error);
     }

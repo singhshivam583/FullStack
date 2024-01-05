@@ -1,12 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Register() {
+
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        phoneNumber:'',
+        work:''
+    })
+
+    let name, value;
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+
+        setFormData({...formData, [name]:value})
+    }
+
+    const PostData = async (e) => {
+        e.preventDefault();
+
+        const {fullName, email, phoneNumber, work, password, confirmPassword} = formData;
+        if(password !== confirmPassword){
+            alert("Passwords do not match")
+        }
+        else{
+            const resData = await fetch('/user/api/register',
+                {method: "POST",
+                    headers:{
+                        "Content-Type": "application/json"
+                        },
+                    body: JSON.stringify({fullName, email, phoneNumber, work, password, confirmPassword})
+                }
+            )
+            // .then((res)=> res.json())
+            // .catch((error)=>{console.log(error)})
+            const data = resData.json();
+            if(data.status == 201 || !data){
+                alert("Invalid Registration");
+                console.log("Invalid Registration")
+            }else{
+                alert("Registration Successful");
+                console.log("Registration Successful")
+            }
+        }
+    }
+
   return (
     <section className='relative flex items-top justify-center min-h-[700px] bg-gray-50 sm:items-center sm:pt-0'>
         <div className='max-w-6xl mx-auto sm:px-6 lg:px-8 sm:text-xl'>
             <div className='shadow grid grid-cols-1 md:grid-cols-2 p-6 gap-6 rounded-lg  bg-white'>
-                <form className="p-6 flex flex-col justify-center border rounded-lg ">
+                <form method='POST' className="p-6 flex flex-col justify-center border rounded-lg ">
                     <div className=' ml-6 pb-4 font-extrabold text-2xl flex items-start'>
                       <h1>Sign up</h1>
                     </div>
@@ -19,9 +66,11 @@ function Register() {
                               Full Name
                           </label>
                           <input
-                              type="name"
-                              name="name"
+                              type="fullName"
+                              name="fullName"
                               id="name"
+                              value = {formData.fullName}
+                              onChange={handleInputs}
                               placeholder="Full Name"
                               className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                           />
@@ -39,6 +88,8 @@ function Register() {
                               type="email"
                               name="email"
                               id="email"
+                              value = {formData.email}
+                              onChange = {handleInputs}
                               placeholder="Your Email"
                               className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                           />
@@ -54,8 +105,10 @@ function Register() {
                         </label>
                         <input
                             type="number"
-                            name="phone" 
+                            name="phoneNumber" 
                             id="phone"
+                            value = {formData.phoneNumber}
+                            onChange={handleInputs}
                             placeholder="Mobile Number"
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
@@ -74,6 +127,8 @@ function Register() {
                             type="work"
                             name="work"
                             id="work"
+                            value = {formData.work}
+                            onChange={handleInputs}
                             placeholder="Your Profession"
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
@@ -92,6 +147,8 @@ function Register() {
                             type="password"
                             name="password"
                             id="password"
+                            value = {formData.password}
+                            onChange={handleInputs}
                             placeholder="Password"
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
@@ -103,13 +160,15 @@ function Register() {
                             <i class="zmdi zmdi-lock zmdi-hc-1x"></i>
                         </div>
                       <div className="flex flex-col w-full">
-                        <label for="cPassword" className="hidden">
+                        <label for="confirmPassword" className="hidden">
                             Confirm Password
                         </label>
                         <input
                             type="password"
-                            name="cPassword"
-                            id="cPassword"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            value = {formData.confirmPassword}
+                            onChange={handleInputs}
                             placeholder="Comfirm Password"
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
@@ -119,6 +178,7 @@ function Register() {
 
                     <button
                         type="submit"
+                        onClick={PostData}
                         className=" ml-6 md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold py-1.5 px-4 rounded-lg mt-6 text-[1rem] hover:bg-orange-600 transition ease-in-out duration-300"
                     >
                         Submit

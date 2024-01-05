@@ -10,30 +10,70 @@ function About() {
                       <img className='rounded-[50%]' src="https://avatars.githubusercontent.com/u/5479305?v=
                       4" alt="Profile Picture" />
                     </div>
-                    <p className='pt-4'>
+                    <p className='text-base pt-4'>
                       Hi, I am a software engineer specializing in building web applications with JavaScript and Node.js.
                     </p>
                 </div>
                 <div className='w-auto'>
                     <div className='flex flex-col gap-6'>
-                      <div className='flex justify-between p-4 border'>
-                        <div className=''>
-                          <h3>Shivam Singh</h3>
-                          <h6>Web Developer</h6>
-                          <p>RANKING: <span> 1/10 </span></p>
+                      <div className='flex justify-between p-4 border rounded-lg'>
+                        <div className='flex flex-col'>
+                          <h3 className='flex item-start font-bold '>Shivam Singh</h3>
+                          <h6 className='flex item-start font-semibold text-orange-700 text-[1rem]'>Web Developer</h6>
+                          <p className='flex item-start font-semibold text-[1rem]'>Ranking :&nbsp;<span className=' text-orange-700'> 1/10 </span></p>
                         </div>
                         <div>
-                            <button className='bg-gray-100 rounded-full px-2 '>
+                            <button className=' text-base bg-gray-100 rounded-full px-2 border-2 hover:border-orange-700 '>
                               Edit Profile
                             </button>
                         </div>
                       </div>
-                      <div className='border'>
-                          <ul>
-                            <li>
-                              <a>About</a>
-                            </li>
-                          </ul>
+                      <div className=' text-base border rounded-lg'>
+                          <div>
+                            <a className='font-bold hover:text-orange-700 hover:underline'>About</a>
+                          </div>
+                          <div className=' border-t py-4'>
+                            <div className='flex px-6 justify-between'>
+                              <div>
+                                <label>User ID :</label>
+                              </div>
+                              <div className=' text-orange-700'>
+                                <p>1234567890</p>
+                              </div>
+                            </div>
+                            <div className='flex px-6 justify-between'>
+                              <div>
+                                <label>Name :</label>
+                              </div>
+                              <div className=' text-orange-700'>
+                                <p>1234567890</p>
+                              </div>
+                            </div>
+                            <div className='flex px-6 justify-between'>
+                              <div>
+                                <label>Email :</label>
+                              </div>
+                              <div className=' text-orange-700'>
+                                <p>1234567890</p>
+                              </div>
+                            </div>
+                            <div className='flex px-6 justify-between'>
+                              <div>
+                                <label>Phone :</label>
+                              </div>
+                              <div className=' text-orange-700'>
+                                <p>1234567890</p>
+                              </div>
+                            </div>
+                            <div className='flex px-6 justify-between'>
+                              <div>
+                                <label>Profession :</label>
+                              </div>
+                              <div className=' text-orange-700'>
+                                <p>1234567890</p>
+                              </div>
+                            </div>
+                          </div>
                       </div>
                     </div>
                 </div>
