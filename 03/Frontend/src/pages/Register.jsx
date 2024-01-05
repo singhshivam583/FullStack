@@ -28,23 +28,36 @@ function Register() {
             alert("Passwords do not match")
         }
         else{
-            const resData = await fetch('/user/api/register',
-                {method: "POST",
-                    headers:{
-                        "Content-Type": "application/json"
-                        },
-                    body: JSON.stringify({fullName, email, phoneNumber, work, password, confirmPassword})
+            try {
+                const resData = await fetch('/user/api/register',
+                    {method: "POST",
+                        headers:{
+                            "Content-Type": "application/json"
+                            },
+                        body: JSON.stringify({fullName, email, phoneNumber, work, password, confirmPassword})
+                    }
+                )
+                // .then((res)=> res.json())
+                // .catch((error)=>{console.log(error)})
+                // console.log(resData);
+                if(resData.status == 401){
+                    // console.log("User already exists")
+                    alert("User already exists")
                 }
-            )
-            // .then((res)=> res.json())
-            // .catch((error)=>{console.log(error)})
-            const data = resData.json();
-            if(data.status == 201 || !data){
-                alert("Invalid Registration");
-                console.log("Invalid Registration")
-            }else{
-                alert("Registration Successful");
-                console.log("Registration Successful")
+                else if(resData.status == 402){
+                    alert('Please fill all the fields')
+                }
+                else if(resData.status == 500){
+                    // console.log("Something went wrong while registering new user")
+                    alert("Something went wrong while registering new user")
+                }
+                else if(resData.status == 201){
+                    console.log("Registration Successful")
+                    alert("Registration Successful")
+                    window.location.replace("/login");
+                }
+            } catch (error) {
+                console.log(`Something went wrong while registering!! ${error.mg}`)
             }
         }
     }
@@ -100,13 +113,13 @@ function Register() {
                             <i class="zmdi zmdi-phone-in-talk zmdi-hc-1x"></i>
                         </div>
                       <div className="flex flex-col w-full">
-                        <label for="phone" className="hidden">
+                        <label for="phoneNumber" className="hidden">
                             Number
                         </label>
                         <input
                             type="number"
                             name="phoneNumber" 
-                            id="phone"
+                            id="phoneNumber"
                             value = {formData.phoneNumber}
                             onChange={handleInputs}
                             placeholder="Mobile Number"
@@ -205,4 +218,4 @@ function Register() {
   )
 }
 
-export default Register
+export default Register 

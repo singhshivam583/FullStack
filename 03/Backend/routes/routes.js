@@ -10,7 +10,7 @@ const userRouter = Router()
 //     res.send("hello this is Shivam")
 // })
 
-    userRouter.route("/login").post(loginUser)
+    userRouter.route("/api/login").post(loginUser)
 
     userRouter.route('/contact').get((req, res) => {
         res.cookie("test","Shivam");

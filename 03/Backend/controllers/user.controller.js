@@ -8,7 +8,7 @@ const registerUser = async(req, res) => {
     // console.log(req.body);
 
     if(!fullName || !email || !phoneNumber || !password || !confirmPassword){
-        return res.status(400).json({msg: 'Please fill all fields'})
+        return res.status(402).json({msg: 'Please fill all fields'})
     }
 
     if(password !== confirmPassword){
@@ -20,7 +20,7 @@ const registerUser = async(req, res) => {
     })
 
     if(existingUser){
-        return res.status(400).json({msg: 'Email or Phone Number already exists!'})
+        return res.status(401).json({msg: 'Email or Phone Number already exists!'})
     }
 
     const user = await User.create({
@@ -91,12 +91,12 @@ const loginUser = async(req, res) => {
     const { email, password } = req.body
 
     if(!email || !password){
-        return res.status(400).json({msg: 'Please fill all fields'})
+        return res.status(402).json({msg: 'Please fill all fields'})
     }
 
     const userLogin = await User.findOne({email: email})
     if (!userLogin) {
-        return res.status(400).json({ msg: "Invalid Email and Password" });
+        return res.status(401).json({ msg: "Invalid Email and Password" });
     }
     // console.log(userLogin);
 
@@ -106,23 +106,24 @@ const loginUser = async(req, res) => {
     const isValidPassword = await userLogin.isValidPassword(password)
     // console.log(isValidPassword);
     if(!isValidPassword){
-        return res.status(400).json({msg:'Incorrect Password'})
+        return res.status(401).json({msg:'Incorrect Password'})
     }
 
     //**************************** jwt ******************
-    const token = await userLogin.generateRefreshToken()
-    console.log(token);
-    if (!token){
+    const refreshToken = await userLogin.generateRefreshToken()
+    // console.log(token);
+    if (!refreshToken){
         return res.status(400).json({msg:'Token not found'})
     }
 
     res.cookie(
-        'jwtToken',
-        token,
+        'refreshToken',
+        refreshToken,
         {
             httpOnly: true,
+            secure:true,
         }
-    )
+    );
 
     console.log("User LogedIn Successfully");
     return res.status(201).json({msg:'User LoggedIn Successfully'})
