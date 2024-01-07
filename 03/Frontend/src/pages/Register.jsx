@@ -9,7 +9,8 @@ function Register() {
         password: '',
         confirmPassword: '',
         phoneNumber:'',
-        work:''
+        work:'',
+        username:'',
     })
 
     let name, value;
@@ -23,7 +24,7 @@ function Register() {
     const PostData = async (e) => {
         e.preventDefault();
 
-        const {fullName, email, phoneNumber, work, password, confirmPassword} = formData;
+        const {fullName, email, phoneNumber, work, password, confirmPassword, username} = formData;
         if(password !== confirmPassword){
             alert("Passwords do not match")
         }
@@ -34,7 +35,7 @@ function Register() {
                         headers:{
                             "Content-Type": "application/json"
                             },
-                        body: JSON.stringify({fullName, email, phoneNumber, work, password, confirmPassword})
+                        body: JSON.stringify({fullName, email, phoneNumber, work, password, confirmPassword, username})
                     }
                 )
                 // .then((res)=> res.json())
@@ -57,7 +58,7 @@ function Register() {
                     window.location.replace("/login");
                 }
             } catch (error) {
-                console.log(`Something went wrong while registering!! ${error.mg}`)
+                console.log(`Something went wrong while registering!! ${error}`)
             }
         }
     }
@@ -146,6 +147,25 @@ function Register() {
                             className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
                         />
                     </div>
+                    </div>
+                    <div className='flex gap-2'>
+                        <div className='flex justify-center items-center w-4 text-2xl'>
+                        <i class="zmdi zmdi-github-alt"></i>
+                        </div>
+                      <div className="flex flex-col w-full">
+                        <label for="username" className="hidden">
+                            gitHub Username
+                        </label>
+                        <input
+                            type="username"
+                            name="username" 
+                            id="username"
+                            value = {formData.username}
+                            onChange={handleInputs}
+                            placeholder="gitHub Username"
+                            className="w-100 mt-2 py-2 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold text-[.8rem] focus:border-orange-500 focus:outline-none"
+                        />
+                      </div>
                     </div>
                     
                     <div className='flex gap-2'>

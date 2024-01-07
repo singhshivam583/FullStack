@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
+
+    const navigate = useNavigate()
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,7 +29,9 @@ function Login() {
             }
             else if(resData.status == 201){
                 alert('User LoggedIn Successfully')
-                window.location.replace("/");
+                navigate('/')
+                // window.location.replace("/");
+                // history.push('/')
             }else{
                 alert('Something went wrong!')
             }

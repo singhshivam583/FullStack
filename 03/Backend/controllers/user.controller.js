@@ -4,10 +4,10 @@ import bcrypt from "bcrypt";
 // async await
 const registerUser = async(req, res) => {
 
-    const {fullName, email, phoneNumber, work, password, confirmPassword} = req.body
+    const {fullName, email, phoneNumber, work, password, confirmPassword, username} = req.body
     // console.log(req.body);
 
-    if(!fullName || !email || !phoneNumber || !password || !confirmPassword){
+    if(!fullName || !email || !phoneNumber || !password || !confirmPassword || !username){
         return res.status(402).json({msg: 'Please fill all fields'})
     }
 
@@ -27,12 +27,13 @@ const registerUser = async(req, res) => {
         fullName,
         email:email.toLowerCase(),
         phoneNumber,
+        username:username.toLowerCase(),
         work,
         password,
         confirmPassword,
     })
     // console.log(user);
-    const createdUser = await User.findById(user._id).select("-password -confirmPassword")
+    const createdUser = await User.findById(user._id).select("-password -confirmPassword -messages")
 
     // or
 
@@ -54,7 +55,6 @@ const registerUser = async(req, res) => {
     return res.status(201).json({msg: 'User Registered Successfully', user: createdUser})
 
 }
-
 
 //Promise
 // const registerUser = (req, res) => {
@@ -111,23 +111,88 @@ const loginUser = async(req, res) => {
 
     //**************************** jwt ******************
     const refreshToken = await userLogin.generateRefreshToken()
-    // console.log(token);
-    if (!refreshToken){
-        return res.status(400).json({msg:'Token not found'})
-    }
+    const accessToken = await userLogin.generateAccessToken()
+    // userLogin.refreshToken = refreshToken
+    // await userLogin.save({ validateBeforeSave: false });
+    
+    const LoggedInUser = await User.findById(userLogin._id).select("-password -confirmPassword -refreshToken -messages")
 
-    res.cookie(
+
+    console.log("User LogedIn Successfully");
+    return res.status(201)
+    .cookie(
         'refreshToken',
         refreshToken,
         {
             httpOnly: true,
             secure:true,
         }
-    );
-
-    console.log("User LogedIn Successfully");
-    return res.status(201).json({msg:'User LoggedIn Successfully'})
+    )
+    .cookie(
+        'accessToken',
+        accessToken,
+        {
+            httpOnly: true,
+            secure:true,
+        }
+    )
+    .json({msg:'User LoggedIn Successfully', user:LoggedInUser, accessToken, refreshToken})
 
 }
 
-export { registerUser, loginUser } 
+const getCurrentUser = async(req, res) => {
+    return res.status(201).json({user:req.user, msg:"user data fetched successfully"})   
+}
+
+const postContact = async(req, res) => {
+
+    const {fullName, email, phoneNumber, message} = req.body;
+
+    if(!fullName || !email || !phoneNumber || !message){
+        return res.status(402).json({msg:"Please fill all the fields"})
+    }
+
+    // const user = await User.findOne({
+    //     $or:[{email}, {phoneNumber}]  //searching for the user by either email or phone number
+    // })
+
+    const user = await User.findById(req.user._id)
+    if(!user){
+        return res.status(400).json({msg:"User not found"})
+    }
+
+    const userMessage = await user.addMessage(fullName, email, phoneNumber, message);
+    if(!userMessage){
+        return res.status(401).json({msg:"Unable to add User Message"})
+    }
+    console.log("User contact details uploaded successfully");
+    return res.status(201).json({userMessage:userMessage, msg:"User contact details uploaded successfully"})
+}
+
+const logoutUser = async(req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set:{
+                refreshToken: undefined
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    console.log("User loggd out succesfully")
+    return res.status(201)
+    .clearCookie("accessToken", {
+        httpOnly: true,
+        secure:true
+    })
+    .clearCookie("refreshToken",{
+        httpOnly: true,
+        secure:true,
+    })
+    .json({msg:"User logged out succesfully"})
+}
+
+export { registerUser, loginUser, getCurrentUser, postContact, logoutUser } 

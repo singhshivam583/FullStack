@@ -1,6 +1,77 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 
 export default function Contact() {
+
+    const [userData, setUserData] = useState({fullName:"", email:"", phoneNumber:"", message:""});
+
+    const callContactPage = async() => {
+        try {
+            const resData = await fetch('/user/api/contact-data',{
+                method: "GET",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify()
+            });
+
+          const {user, msg} = await resData.json()
+          // console.log("message : ", msg);
+        //   console.log(user)
+          setUserData({...userData, fullName:user.fullName, email:user.email, phoneNumber:user.phoneNumber});
+
+        } catch (error) {
+          console.log("Error while fetching current-user ",error)
+        }
+    }
+
+    useEffect(() => {
+        callContactPage();
+    }, [])
+
+//************ Handle inputs *************/
+
+    const handleInputs = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setUserData({...userData, [name]:value})
+    }
+
+//*************** Post Data to database ******************/
+    const submitForm = async(e)=> {
+        e.preventDefault();
+
+        const {fullName, email, phoneNumber, message} = userData;
+        try {
+            const resData = await fetch('/user/api/contact-post',
+                {method: "POST",
+                    headers:{
+                        "Content-Type": "application/json"
+                        },
+                    body: JSON.stringify({fullName, email, phoneNumber, message})
+                }
+            );
+
+            if(resData.status == 201){
+                alert('Your Message has been sent successfully!');
+                setUserData({...userData, message:""})
+            }
+            else if(resData.status == 402){
+                alert("Please Fill All the Fields")
+            }
+            else if(resData.status == 401){
+                alert("Please Try again")
+            }
+            else{
+                alert("Something went wrong")
+            }
+                    
+        } catch (error) {
+            console.log("Error while sending contact details", error)
+        }
+    }
+    
+
     return (
         <div className="relative flex items-top justify-center min-h-[700px] bg-white sm:items-center sm:pt-0">
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
@@ -86,15 +157,20 @@ export default function Contact() {
                                 </div>
                             </div>
                         </div>
-                        <form className="p-6 flex flex-col justify-center text-[.9rem]">
+                        <form className="p-6 flex flex-col justify-center text-[.9rem]"
+                            action="https://formspree.io/f/mvoeoyye"
+                            method = "POST"
+                        >
                             <div className="flex flex-col">
-                                <label for="name" className="hidden">
+                                <label for="fullName" className="hidden">
                                     Full Name
                                 </label>
                                 <input
-                                    type="name"
-                                    name="name"
-                                    id="name"
+                                    type="fullName"
+                                    name="fullName"
+                                    id="fullName"
+                                    value={userData?.fullName || ""}
+                                    onChange = {handleInputs}
                                     placeholder="Full Name"
                                     className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold focus:border-orange-500 focus:outline-none"
                                 />
@@ -108,23 +184,28 @@ export default function Contact() {
                                     type="email"
                                     name="email"
                                     id="email"
+                                    value={userData?.email || ""}
+                                    onChange = {handleInputs}
                                     placeholder="Email"
                                     className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold focus:border-orange-500 focus:outline-none"
                                 />
                             </div>
 
                             <div className="flex flex-col mt-2">
-                                <label for="phone" className="hidden">
+                                <label for="phoneNumber" className="hidden">
                                     Number
                                 </label>
                                 <input
                                     type="number"
-                                    name="phone"
-                                    id="phone"
+                                    name="phoneNumber"
+                                    id="phoneNumber"
+                                    value={userData?.phoneNumber || ""}
+                                    onChange = {handleInputs}
                                     placeholder="Mobile Number"
                                     className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold focus:border-orange-500 focus:outline-none"
                                 />
                             </div>
+
                             <div className="flex flex-col mt-2">
                                 <label for="message" className="hidden">
                                     Message
@@ -133,6 +214,8 @@ export default function Contact() {
                                     type="text"
                                     name="message"
                                     id="message"
+                                    value={userData?.message || ""}
+                                    onChange = {handleInputs}
                                     placeholder="Message"
                                     className="w-100 mt-2 py-3 px-3 rounded-lg bg-white border border-gray-400 text-gray-800 font-semibold focus:border-orange-500 focus:outline-none"
                                 />
@@ -140,6 +223,7 @@ export default function Contact() {
 
                             <button
                                 type="submit"
+                                onClick={submitForm}
                                 className="md:w-32 bg-orange-700 hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-orange-600 transition ease-in-out duration-300"
                             >
                                 Submit

@@ -1,20 +1,22 @@
 import { Router } from "express";
-import { registerUser, loginUser } from "../controllers/user.controller.js";
+import { registerUser, loginUser, getCurrentUser, postContact, logoutUser } from "../controllers/user.controller.js";
+import { verifyJWT } from "../middleware/auth.middleware.js";
 
 
 const userRouter = Router()
 
-    userRouter.route("/api/register").post(registerUser)
+    userRouter.route("/register").post(registerUser)
+    userRouter.route("/login").post(loginUser)
 
-// userRouter.route('/register').get((req, res) => {
-//     res.send("hello this is Shivam")
-// })
+    // userRouter.route('/contact').get((req, res) => {
+    //     res.cookie("test","Shivam");
+    //     res.send('Hello from contact')
+    // })
 
-    userRouter.route("/api/login").post(loginUser)
+    userRouter.route('/current-user').get(verifyJWT,getCurrentUser)
+    userRouter.route('/contact-data').get(verifyJWT,getCurrentUser)
+    userRouter.route('/contact-post').post(verifyJWT,postContact)
+    userRouter.route('/logout').post(verifyJWT,logoutUser)
 
-    userRouter.route('/contact').get((req, res) => {
-        res.cookie("test","Shivam");
-        res.send('Hello from contact')
-    })
 
-export default userRouter
+export { userRouter }

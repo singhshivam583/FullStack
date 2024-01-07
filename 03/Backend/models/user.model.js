@@ -34,13 +34,33 @@ const userSchema = new Schema(
             type:String,
             required:true,
         },
-        refreshTokens: [
+        username:{
+            type:String,
+        },
+        messages:[
             {
-                refreshToken:{
+                fullName:{
+                    type: String,
+                    required: true,
+                },
+                email:{
                     type:String,
-                }
+                    required:true,
+                   
+                },
+                phoneNumber:{
+                    type:String,
+                    required:true
+                },
+                message:{
+                    type:String,
+                    required:true
+                },
             }
         ],
+        refreshToken:{
+            type:String,
+        },
     },
     {
         timestamps:true
@@ -56,11 +76,11 @@ userSchema.pre('save', async function (next) {
     this.confirmPassword = await bcrypt.hash(this.confirmPassword,salt);
     next();
 });
+
 // method to compare password for login
 userSchema.methods.isValidPassword = async function(password){
     return await bcrypt.compare(password,this.password);
 };
-
 
 // JWT 
 userSchema.methods.generateAccessToken = async function(){
@@ -92,14 +112,27 @@ userSchema.methods.generateRefreshToken = async function(){
             {
                 expiresIn: process.env.REFRESH_JWT_EXPIRY
             }
-        )
-        this.refreshTokens = this.refreshTokens.concat({ refreshToken: refreshToken })
+        );
+        // this.refreshTokens = this.refreshTokens.concat({ refreshToken: refreshToken })
+        this.refreshToken = refreshToken;
         await this.save()
-        return refreshToken
+        
+        return refreshToken;
     } catch (error) {
         console.log("Error in Refresh Token !!!", error)
     }
 }
 
+//  method for storing contact details in schema
+userSchema.methods.addMessage = async function(fullName, email, phoneNumber, message){
+    try {
+        this.messages = this.messages.concat({fullName, email, phoneNumber, message})
+        await this.save();
+        return this.messages;
+
+    } catch (error) {
+        console.log('Error in addMessage :', error)
+    }
+}
 
 export const User = mongoose.model("User", userSchema)
