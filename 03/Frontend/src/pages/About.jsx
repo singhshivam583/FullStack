@@ -16,7 +16,6 @@ function About() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify()
-        
       });
 
       if(resData.status !== 201){
@@ -28,27 +27,27 @@ function About() {
       const {user, msg} = await resData.json()
       // console.log("message : ", msg);
       setUserData(user);
-      // console.log(userData.fullName)
+      // console.log(userData.username)
 
     } catch (error) {
       console.log("Error while fetching current-user ",error)
     }
   }
 
-   const gitHub = async() => {
+  const gitHub = async() => {
     try {
-      await fetch(`https://api.github.com/users/singhshivam583`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data) 
-        setGitData(data);
-      });
+      const data = await fetch(`https://api.github.com/users/${userData.username}`)
+      .then((res) => res.json());
+
+      setGitData(data);
 
     } catch (error) {
-      console.log("Error while fetching gitHub", error);
+      throw new Error("Error while fetching gitHub", error);
     }
    }
-
+  // console.log(gitData)
+  // console.log(userData)
+   
   useEffect(() => {
    callAboutPage();
    gitHub();
