@@ -4,6 +4,11 @@ import  { Footer, Header }  from './components'
 import { Outlet } from 'react-router-dom'
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const toggleState = () => {
+    setIsLogin(!isLogin)
+  }
 
   return (
     <>

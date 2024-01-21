@@ -23,34 +23,37 @@ function About() {
         // window.location.href = '/login'
         // history.push('/login')
       }
-
       const {user, msg} = await resData.json()
-      // console.log("message : ", msg);
       setUserData(user);
       // console.log(userData.username)
+      // console.log("message : ", msg);
+      
+      const gitResponse = await fetch(`https://api.github.com/users/${user.username}`);
+      const gitData = await gitResponse.json();
+      setGitData(gitData);
 
     } catch (error) {
       console.log("Error while fetching current-user ",error)
     }
   }
 
-  const gitHub = async() => {
-    try {
-      const data = await fetch(`https://api.github.com/users/${userData.username}`)
-      .then((res) => res.json());
+  // const gitHub = async() => {
+  //   try {
+  //     const data = await fetch(`https://api.github.com/users/${userData.username}`)
+  //     .then((res) => res.json());
 
-      setGitData(data);
+  //     setGitData(data);
 
-    } catch (error) {
-      throw new Error("Error while fetching gitHub", error);
-    }
-   }
+  //   } catch (error) {
+  //     throw new Error("Error while fetching gitHub", error);
+  //   }
+  //  }
   // console.log(gitData)
   // console.log(userData)
    
   useEffect(() => {
    callAboutPage();
-   gitHub();
+  //  gitHub();
   }, [])
 
   return (
@@ -78,9 +81,9 @@ function About() {
                             <button className=' text-base bg-gray-100 rounded-full px-2 border-2 hover:border-orange-700 '>
                               Edit Profile
                             </button>
-                            <div className='flex gap-2'>
+                            <div className='flex gap-2 justify-end'>
                               <i class="zmdi zmdi-github-alt"></i>
-                              <a href={gitData.html_url} target='_blank' className='text-sm hover:text-orange-700 hover:cursor-pointer'>visit gitHub <i class="zmdi zmdi-arrow-right"></i></a>
+                              <a href={gitData.html_url} target='_blank' className='text-sm hover:text-orange-700 hover:cursor-pointer'>gitHub <i class="zmdi zmdi-arrow-right"></i></a>
                             </div>
                         </div>
                       </div>
@@ -131,7 +134,7 @@ function About() {
                             </div>
                             <div className='flex px-6 justify-between'>
                               <div>
-                                <label>gitHub Username :</label>
+                                <label>gitHub :</label>
                               </div>
                               <div className=' text-orange-700 text-start'>
                                 <p><a href={gitData.html_url} target="_blank" className='hover:cursor-pointer'>{userData.username}</a></p>
