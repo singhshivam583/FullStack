@@ -12,7 +12,6 @@ const userRouter = Router()
     //     res.cookie("test","Shivam");
     //     res.send('Hello from contact')
     // })
-
     userRouter.route('/current-user').get(verifyJWT,getCurrentUser)
     userRouter.route('/contact-data').get(verifyJWT,getCurrentUser)
     userRouter.route('/contact-post').post(verifyJWT,postContact)
