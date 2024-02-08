@@ -57,10 +57,10 @@ function About() {
   }, [])
 
   return (
-    <section className='relative flex items-top justify-center min-h-[700px] bg-gray-50 sm:items-center sm:pt-0'>
-        <div className='max-w-6xl mx-auto sm:px-6 lg:px-8 sm:text-xl'>
-            <div className='shadow grid grid-cols-1 md:grid-cols-2 p-6 gap-6 rounded-lg  bg-white'>
-                <div className='flex flex-col justify-center items-center border rounded-lg p-4'>
+    <section className='relative flex items-top justify-center min-h-[700px] sm:items-center sm:pt-0 '>
+        <div className='mx-auto sm:px-6 lg:px-8 sm:text-xl max-w-screen-xl '>
+            <div className='shadow grid grid-cols-1 md:grid-cols-2 p-6 gap-6 rounded-lg  bg-gray-50'>
+                <div className='flex flex-col justify-center items-center border rounded-lg p-4 bg-white'>
                     <div className='flex justify-center items-center p-4 w-56 bg-gray-100 rounded-[50%]'>
                       <img className='rounded-[50%]' src={gitData.avatar_url} 
                       alt="Profile Picture" />
@@ -69,9 +69,9 @@ function About() {
                       Hi, I am a software engineer specializing in building web applications with JavaScript and Node.js.
                     </p>
                 </div>
-                <div className='w-auto'>
+                <div className='w-auto '>
                     <div className='flex flex-col gap-6'>
-                      <div className='flex justify-between p-4 border rounded-lg'>
+                      <div className='flex justify-between p-4 border rounded-lg bg-white'>
                         <div className='flex flex-col'>
                           <h3 className='flex item-start font-bold '>{userData.fullName}</h3>
                           <h6 className='flex item-start font-semibold text-orange-700 text-[1rem]'>{userData.work}</h6>
@@ -87,7 +87,7 @@ function About() {
                             </div>
                         </div>
                       </div>
-                      <div className=' text-base border rounded-lg'>
+                      <div className=' text-base border rounded-lg bg-white'>
                           <div>
                             <a className='font-bold'>About</a>
                           </div>

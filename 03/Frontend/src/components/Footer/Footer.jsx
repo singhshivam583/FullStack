@@ -5,7 +5,7 @@ function Footer() {
     
   return (
     <footer className='bg-white border-y'>
-      <div className='px-4 py-6 lg:px-8 mx-auto w-full'>
+      <div className='px-4 py-6 lg:px-8 mx-auto max-w-screen-xl'>
         <div className='md:flex md:justify-between py-6'>
             <div className='mx-4 pb-6 md:pb-0'>
               <Link to="/" className="flex items-center">

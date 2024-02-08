@@ -292,8 +292,8 @@ function Header() {
     // }
 
   return (
-    <header className="sticky z-50 top-0 bg-white w-full shadow-md">
-      <nav className="mx-auto flex w-full items-center justify-between p-4 lg:px-8" aria-label="Global">
+    <header className="sticky z-50 top-0 shadow-md ">
+      <nav className=" bg-white mx-auto flex items-center justify-between p-4 lg:px-8 max-w-screen-xl" aria-label="Global">
         <div className="flex lg:flex-1">
             <Link to="/" className="flex items-center">
                 <img
