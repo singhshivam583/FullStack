@@ -170,6 +170,7 @@ const postContact = async(req, res) => {
 }
 
 const logoutUser = async(req, res) => {
+    console.log(req.user._id)
     await User.findByIdAndUpdate(
         req.user._id,
         {

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
-
+import { UserContext } from '../App';
 
 export default function Logout() {
+
+    const {state, dispatch} = useContext(UserContext);
 
     const navigate = useNavigate()
 
@@ -15,6 +17,7 @@ export default function Logout() {
             credentials: 'include'
         })
         .then((res) => {
+            dispatch({type:"USER", payload: false})
             navigate('/login')
             // window.location.href="/login";
             // history.push('/login')

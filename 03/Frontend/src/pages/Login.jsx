@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../App';
 
 function Login() {
+
+    const {state, dispatch} = useContext(UserContext);
 
     const navigate = useNavigate()
 
@@ -28,6 +31,7 @@ function Login() {
                 alert('Please fill all the fields')
             }
             else if(resData.status == 201){
+                dispatch({type:"USER", payload: true})
                 alert('User LoggedIn Successfully')
                 navigate('/')
                 // window.location.replace("/");
